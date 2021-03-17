@@ -1,0 +1,24 @@
+services:
+  named:
+    build: .
+    networks:
+      lan:
+        ipv4_address: "10.30.12.11"
+    ports:
+      - "53:53"
+    environment:
+      - WEBMIN_ENABLED=false
+    volumes:
+      - named_data:/data
+volumes:
+  named_data:
+networks:
+  lan:
+    name: docker_lan
+    driver: "macvlan"
+    driver_opts:
+      parent: LAN
+    ipam:
+      config:
+        - subnet: "10.30.12.0/24"
+          gateway: "10.30.12.1"
